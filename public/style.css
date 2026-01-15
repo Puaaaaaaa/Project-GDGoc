@@ -1,0 +1,777 @@
+:root {
+  --primary: #cf4236;
+  --bg: #010101;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  text-decoration: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg);
+  color: #fff;
+  min-height: 3000px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.4rem 7%;
+  background-color: rgba(1, 1, 1, 0.8);
+  border-bottom: 1px solid var(--primary);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999999;
+}
+
+/* Styling Container Logo */
+.navbar .navbar-logo {
+  font-size: 2rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* Warna-warna Spesifik Google (GDGoc) */
+.c-red {
+  color: #ea4335;
+}
+
+.c-blue {
+  color: #4285f4;
+}
+
+.c-yellow {
+  color: #fbbc04;
+}
+
+.c-green {
+  color: #34a853;
+}
+
+.navbar .navbar-logo .unhas-text {
+  color: #fff;
+  margin-left: 6px;
+}
+
+.navbar .navbar-nav a {
+  color: #fff;
+  display: inline-block;
+  font-size: 1.4rem;
+  margin: 0 1rem;
+}
+
+.navbar .navbar-nav a:hover {
+  color: var(--primary);
+}
+
+.navbar .navbar-nav a::after {
+  content: "";
+  display: block;
+  padding-bottom: 0rem;
+  border-bottom: 0.1rem solid var(--primary);
+  transform: scaleX(0);
+  transition: 0.2s linear;
+}
+
+.navbar .navbar-nav a:hover::after {
+  transform: scaleX(0.5);
+}
+
+.navbar .navbar-extra a {
+  color: #fff;
+  margin: 0 1rem;
+  size: 1.6rem;
+}
+
+.navbar .navbar-extra a:hover {
+  color: var(--primary);
+}
+
+#menu-btn {
+  display: none;
+}
+
+/* Hero Section */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-slider img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 0;
+}
+
+.hero-slider img.active {
+  opacity: 1;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, rgba(1, 1, 1, 1) 0%, rgba(1, 1, 1, 0) 20%);
+  z-index: 2;
+}
+
+.hero .content {
+  position: relative;
+  z-index: 10;
+  padding: 1.4rem 7%;
+  max-width: 60rem;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 5rem;
+}
+
+.hero .content h1 {
+  font-size: 5rem;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(1, 1, 1, 0.5);
+  line-height: 1.1;
+}
+
+.hero .content h1 span {
+  color: var(--primary);
+}
+
+.hero .content p {
+  font-size: 1.6rem;
+  margin-top: 1rem;
+  text-shadow: 1px 1px 3px rgba(1, 1, 3, 0.5);
+  line-height: 1.4;
+  font-weight: 500;
+  color: #fff;
+  border-radius: 0.5rem;
+}
+
+.hero .content a {
+  margin-top: 1rem;
+  display: inline-block;
+  padding: 1rem 3rem;
+  font-size: 1.4rem;
+  color: #fff;
+  background-color: var(--primary);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(210, 14, 27, 0.4);
+  box-shadow: 1px 1px 3px rgba(1, 1, 3, 0.5);
+  position: relative;
+  z-index: 10;
+  font-style: bold;
+}
+
+/* === CSS UNTUK MODAL POPUP === */
+
+/* Latar belakang gelap (Overlay) */
+.modal {
+  display: none; /* Sembunyikan secara default */
+  position: fixed;
+  z-index: 9999; /* Pastikan berada di paling atas layer */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Hitam transparan */
+  backdrop-filter: blur(3px); /* Efek blur di background belakang */
+}
+
+/* Kotak Konten Formulir */
+.modal-content {
+  background-color: #1a1a1a; /* Warna kotak abu gelap */
+  color: #fff;
+  margin: 10% auto; /* Jarak dari atas */
+  padding: 2rem;
+  border: 1px solid #333;
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 500px; /* Lebar maksimal */
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.4s;
+}
+
+/* Animasi muncul pelan */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tombol Close (X) */
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  color: #aaa;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.close-btn:hover {
+  color: var(--primary); /* Merah/Primary saat hover */
+}
+
+/* Styling Input Form */
+.input-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  border: 1px solid #444;
+  background-color: #2a2a2a;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* Tombol Submit */
+.submit-btn {
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--primary); /* Sesuaikan variabel warna Anda */
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  opacity: 0.9;
+}
+
+/* Tambahan agar kotak pesan (textarea) terlihat rapi */
+.input-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  border: 1px solid #444;
+  background-color: #2a2a2a;
+  color: #fff;
+  font-size: 1rem;
+  resize: vertical; /* User bisa tarik ke bawah, tapi tidak ke samping */
+  font-family: inherit; /* Agar font sama dengan website */
+}
+
+.input-group textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* About Section */
+.about,
+.contact {
+  padding: 8rem 7% 1.4rem;
+}
+
+.about h2,
+.contact h2 {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 4rem;
+  position: relative;
+}
+
+.about h2 span,
+.contact h2 span {
+  color: var(--primary);
+}
+
+.about .row {
+  display: flex;
+  gap: 0rem;
+}
+
+.about .row .about-img {
+  flex: 1 1 15rem;
+}
+
+.about .row .about-img img {
+  width: 30rem;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(210, 14, 27, 0.4);
+  margin-top: 4rem;
+}
+
+.about .row .content {
+  flex: 1 1 35rem;
+  padding: 0 1.6rem;
+}
+
+.about .row .content h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.about .row .content p {
+  margin-bottom: 0.8rem;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  font-weight: 300;
+  color: #fff;
+}
+
+.about .row .content .yt-link {
+  color: var(--primary);
+}
+
+/* Events Section */
+/* Container Utama Slider */
+.menu h2 {
+  padding: 8rem 7% 1.4rem;
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.menu h2 span {
+  color: var(--primary);
+}
+
+.slider-container {
+  position: relative;
+  max-width: 80rem;
+  margin: 0 auto;
+  overflow: visible;
+  padding: 2rem 0;
+}
+
+.slider-mask {
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Jalur Slider (Fleksibel memanjang ke samping) */
+.slider-track {
+  display: flex;
+  width: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Pengaturan Per Halaman (Slide) */
+.slide {
+  min-width: 100%;
+  padding: 0;
+}
+
+.slide-flex-layout {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  padding: 1rem;
+}
+
+.left-image-col {
+  flex: 3 1 50%;
+}
+
+.featured-card img {
+  width: 100%;
+  height: 30rem;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(210, 14, 27, 0.4);
+  object-fit: cover;
+}
+
+.right-desc-col {
+  flex: 1 1 60%;
+  text-align: left;
+  color: #fff;
+}
+
+.slide-title {
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+.main-desc {
+  font-size: 1.4rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* Styling Tombol Navigasi */
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  z-index: 10;
+  transition: 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.nav-btn:hover,
+.hero .content a:hover,
+.about .row .content a:hover,
+.contact .row .contact-card a:hover,
+.submit-btn:hover {
+  background-color: rgb(100, 2, 2);
+  transition: 0.3s;
+}
+
+.prev-btn {
+  left: -5rem;
+}
+
+.next-btn {
+  right: -5rem;
+}
+
+/* Animasi Mengintip (Nudge Effect) */
+@keyframes peek {
+  0% {
+    transform: translateX(0%);
+  }
+  50% {
+    transform: translateX(-10%);
+  } /* Geser 10% ke kiri untuk 'mengintip' */
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+/* Class ini akan ditempelkan lewat JavaScript nanti */
+.nudge-effect {
+  animation: peek 0.8s ease-in-out;
+}
+
+/* Organizers Section */
+.contact .row .contact-card {
+  text-align: center;
+  justify-content: center;
+}
+
+.contact h4 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.contact .row p {
+  font-size: 1.2rem;
+  max-width: 16rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1.5rem;
+  line-height: 1.6;
+  color: #fff;
+}
+
+.contact .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7rem;
+}
+
+.contact .row .contact-card {
+  text-align: center;
+  justify-content: center;
+}
+
+.contact .row .contact-card img {
+  width: 14rem;
+  height: 14rem;
+  border-radius: 50%;
+  box-shadow: 0 0.5rem 1rem rgba(210, 14, 27, 0.4);
+  margin-top: 0;
+  margin-bottom: 2rem;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.contact .row .contact-card a {
+  margin-top: 1rem;
+  display: block;
+  padding: 0.8rem 2rem;
+  font-size: 1.2rem;
+  color: #fff;
+  background-color: var(--primary);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(210, 14, 27, 0.4);
+  box-shadow: 1px 1px 3px rgba(1, 1, 3, 0.5);
+  position: relative;
+  z-index: 10;
+  font-style: bold;
+  margin: 1rem auto;
+  width: fit-content;
+}
+
+/* Styling Khusus Modal Profile */
+.profile-content {
+  max-width: 700px; /* Lebih lebar dari modal biasa */
+}
+
+.profile-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  margin-top: 1rem;
+}
+
+/* Bagian Foto */
+.profile-img-container img {
+  width: 200px; /* Ukuran foto tetap */
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%; /* Bulat */
+  border: 4px solid var(--primary); /* List warna merah */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Bagian Teks */
+.profile-info {
+  text-align: left;
+  flex: 1;
+}
+
+.profile-info h3 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.highlight-role {
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.profile-desc {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #ccc;
+  margin-top: 1rem;
+}
+
+.profile-info {
+  text-align: center;
+}
+
+/* Find Us Section */
+.all-link {
+  text-align: center;
+  margin-top: 7rem;
+  margin-bottom: 7rem;
+  word-spacing: 5rem;
+}
+
+.link-icons a {
+  color: #fff;
+  font-size: 3rem;
+  margin: 0 1.5rem;
+}
+
+.link-icons a:hover {
+  color: var(--primary);
+}
+
+/* Responsive Media Queries */
+/* laptop */
+@media (max-width: 1366px) {
+  html {
+    font-size: 75%;
+  }
+}
+
+/* tablet */
+@media (max-width: 768px) {
+  html {
+    font-size: 62.5%;
+  }
+  #menu-btn {
+    display: inline-block;
+  }
+  .navbar .navbar-nav {
+    position: absolute;
+    top: 100%;
+    right: -100%;
+    background-color: #ffe8e8;
+    width: 30rem;
+    height: 100vh;
+    transition: 0.3s;
+  }
+  .navbar .navbar-nav.active {
+    right: 0;
+  }
+  .navbar .navbar-nav a {
+    display: block;
+    color: var(--bg);
+    margin: 1.5rem;
+    padding: 0.5rem;
+    font-size: 2rem;
+  }
+  .navbar .navbar-nav a::after {
+    transform-origin: 0 0;
+  }
+  .navbar .navbar-nav a:hover::after {
+    transform: scaleX(0.3);
+  }
+
+  /* 1. Atur Kotak Modal agar lebih lebar di layar kecil */
+  .modal-content {
+    width: 95%; /* Mengambil 95% lebar layar HP */
+    margin: 30% auto; /* Turunkan sedikit posisi dari atas */
+    padding: 1.5rem; /* Kurangi padding agar tidak makan tempat */
+  }
+
+  /* 2. Sesuaikan Judul agar tidak terlalu besar */
+  .modal-content h3 {
+    font-size: 1.5rem;
+    margin-top: 0;
+  }
+
+  /* 3. Tombol Close (X) lebih besar & posisinya pas */
+  .close-btn {
+    top: 0.5rem;
+    right: 1rem;
+    font-size: 2.5rem; /* Diperbesar agar mudah ditap jari */
+  }
+
+  /* 4. Pastikan input nyaman dibaca */
+  .input-group input {
+    font-size: 1rem;
+    padding: 0.7rem;
+  }
+
+  /* 5. Tombol Submit */
+  .submit-btn {
+    padding: 0.8rem;
+    font-size: 1rem;
+  }
+
+  .about .row {
+    flex-wrap: wrap;
+  }
+
+  .about .row .about-img img {
+    height: 24rem;
+    object-fit: cover;
+    object-position: center;
+    width: 30rem;
+    display: block;
+    margin: 0 auto;
+    margin-top: 0.1rem;
+  }
+
+  .about .row .content {
+    padding: 0;
+  }
+
+  .about .row .content h3 {
+    margin-top: 2rem;
+  }
+
+  .slider-container {
+    max-width: 80%;
+  }
+
+  .slide-flex-layout {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .slide-flex-layout .left-image-col {
+    margin-left: 4rem;
+    margin-right: 4rem;
+  }
+
+  .right-desc-col {
+    text-align: center;
+  }
+
+  .prev-btn {
+    left: -1rem;
+  }
+  .next-btn {
+    right: -1rem;
+  }
+
+  .profile-layout {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* mobile */
+@media (max-width: 450px) {
+  html {
+    font-size: 55%;
+  }
+}
